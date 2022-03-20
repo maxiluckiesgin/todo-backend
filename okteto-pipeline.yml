@@ -1,3 +1,4 @@
 deploy:
+  - cp config.yaml.example config.yaml 
   - okteto build -t okteto.dev/todo-backend:latest
   - kubectl apply -f k8s.yml
