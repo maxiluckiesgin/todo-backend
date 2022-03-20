@@ -24,11 +24,14 @@ func main() {
 
 	route.Route(e)
 
-	serverPort := conf.GetInt("server.port")
-	serverHost := conf.GetString("server.host")
+
+	serverEnv := conf.Get("ENV_NAME")
+	serverPort := conf.GetInt("SERVER_PORT")
+	serverHost := conf.GetString("SERVER_HOST")
 	serverAddress := fmt.Sprintf("%s:%d", serverHost, serverPort)
 
 	go func() {
+		fmt.Printf("Running on %s environment", serverEnv)
 		if err := e.Start(serverAddress); err != nil {
 			e.Logger.Info("shutting down the server")
 		}

@@ -26,7 +26,7 @@ go mod tidy
 
 Rename config.yaml.example -> config.yaml (modify accordingly)
 ```shell
-cp config.yaml.example config.yaml
+cp cp .env.example .env
 ```
 
 ## Run

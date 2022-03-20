@@ -6,7 +6,8 @@ var Config *viper.Viper
 
 func LoadConfig(configPath string) (*viper.Viper, error) {
 	Config = viper.New()
-	Config.SetConfigName("config")
+	Config.SetConfigName(".env")
+    Config.SetConfigType("env")
 	Config.AddConfigPath(configPath)
 	err := Config.ReadInConfig()
 
