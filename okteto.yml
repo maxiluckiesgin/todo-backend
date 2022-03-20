@@ -8,7 +8,7 @@ securityContext:
 sync:
 - .:/usr/src/app
 forward:
-- 8080:8087
+- 8080:8080
 volumes:
 - /go/pkg/
 - /root/.cache/go-build/
