@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+      - image: okteto/todo-backend:golang
+        name: todo-backend
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-backend
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP  
+  ports:
+  - name: "todo-backend"
+    port: 8087
+  selector:

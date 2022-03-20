@@ -1,0 +1,14 @@
+name: todo-backend
+image: okteto/golang:1
+command: go run main.go
+securityContext:
+  capabilities:
+    add:
+    - SYS_PTRACE
+sync:
+- .:/usr/src/app
+forward:
+- 8080:8087
+volumes:
+- /go/pkg/
+- /root/.cache/go-build/
