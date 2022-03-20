@@ -27,5 +27,6 @@ spec:
   ports:
     - name: http
       port: 8080
+      targetPort: 8087
   selector:
     app: todo-backend
