@@ -8,17 +8,31 @@ jobs:
     runs-on: ubuntu-latest
     environment: PRODUCTION
     steps:
-      - env:
-          ENV_NAME: "PRODUCTION"
-        run: echo "⏱ Deploying on $ENV_NAME environment"
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHATID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ⏱ Deploying on PRODUCTION environment
+      - name: send detailed event
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHATID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created pushed to  ${{ github.repository }} ${{ github.ref }} :
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: send telegram message the job status
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHATID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            "🍏 This job's status is ${{ job.status }}.
