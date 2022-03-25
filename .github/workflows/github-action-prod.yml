@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: PRODUCTION
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
@@ -20,8 +24,9 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHATID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
           message: |
-            ${{ github.actor }} created pushed to  ${{ github.repository }} ${{ github.ref }} :
+            ${{ github.actor }}  pushed to `${{ github.repository }} ${{ steps.extract_branch.outputs.branch }}` :
             Commit message: ${{ github.event.commits[0].message }}
             
             Repository: ${{ github.repository }}
@@ -35,4 +40,4 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHATID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            "🍏 This job's status is ${{ job.status }}.
+            🍏 This job's status is ${{ job.status }}.
