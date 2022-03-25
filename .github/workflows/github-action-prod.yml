@@ -1,8 +1,12 @@
-name: GitHub Actions Demo
-on: [push]
+name: ToDo App Backend Deployment - PRODUCTION
+on:
+  push:
+    branches:
+      - main
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    environment: PRODUCTION
     steps:
       - env:
           ENV_NAME: ${{ secrets.env_name }}
